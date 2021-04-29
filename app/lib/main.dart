@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
         ),
         backgroundColor: Colors.pink,
       ),
-      body: _Container(), //Center(child: _Text()),
+      body: _Padding(), //Center(child: _Padding()),
       floatingActionButton: _FloatingActionButton(),
     );
   }
@@ -49,7 +49,19 @@ class _Container extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.red,
+      child: Text("hi!!"),
+      padding: EdgeInsets.all(20.0),
+      margin: EdgeInsets.only(bottom: 100.0),
     );
+  }
+}
+
+class _Padding extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 100.0),
+        child: Text("padded text"));
   }
 }
 
