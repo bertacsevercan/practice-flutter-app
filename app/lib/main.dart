@@ -21,7 +21,7 @@ class Home extends StatelessWidget {
         ),
         backgroundColor: Colors.pink,
       ),
-      body: _Padding(), //Center(child: _Padding()),
+      body: _IconButton(), //Center(child: _Padding()),
       floatingActionButton: _FloatingActionButton(),
     );
   }
@@ -99,6 +99,18 @@ class _ElevatedButton extends StatelessWidget {
       //TextButton, IconButton...
       icon: Icon(Icons.drag_handle),
       label: Text("Tap me"),
+      onPressed: () => print("Tapped"),
+    );
+  }
+}
+
+class _IconButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.drag_handle),
+      iconSize: 30.0,
+      color: Colors.pink,
       onPressed: () => print("Tapped"),
     );
   }
