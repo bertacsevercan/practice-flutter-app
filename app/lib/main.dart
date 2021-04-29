@@ -24,8 +24,13 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.pink,
       ),
       body: Center(
-        child: Image.asset("images/lollipop.jpg"),
-        /* Text(
+          child: ElevatedButton.icon(
+        //TextButton, IconButton...
+        icon: Icon(Icons.drag_handle),
+        label: Text("Tap me"),
+        onPressed: () => print("Tapped"),
+      ) //Image.asset("images/lollipop.jpg"),
+          /* Text(
           "helloo",
           style: TextStyle(
               fontSize: 20.0,
@@ -34,12 +39,13 @@ class Home extends StatelessWidget {
               color: Colors.white,
               fontFamily: "EmilysCandy"),
         ), */
-      ),
+          ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => null,
-        child: Text(
-          "+",
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        onPressed: () => print("Honk!"),
+        child: Icon(
+          Icons.airport_shuttle,
+          color: Colors.lightBlue[200],
+          size: 30.0,
         ),
         backgroundColor: Colors.pink,
       ),
