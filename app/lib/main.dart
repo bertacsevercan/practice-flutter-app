@@ -5,6 +5,8 @@ void main() => runApp(MaterialApp(
     ));
 
 class Home extends StatelessWidget {
+  final imgSrc =
+      "https://images.unsplash.com/photo-1514517521153-1be72277b32f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,8 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.pink,
       ),
       body: Center(
-        child: Text(
+        child: Image.asset("images/lollipop.jpg"),
+        /* Text(
           "helloo",
           style: TextStyle(
               fontSize: 20.0,
@@ -30,7 +33,7 @@ class Home extends StatelessWidget {
               letterSpacing: 2.0,
               color: Colors.white,
               fontFamily: "EmilysCandy"),
-        ),
+        ), */
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => null,
