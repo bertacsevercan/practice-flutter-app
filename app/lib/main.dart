@@ -21,8 +21,19 @@ class Home extends StatelessWidget {
         ),
         backgroundColor: Colors.pink,
       ),
-      body: _IconButton(), //Center(child: _Padding()),
+      body: _Row(), //Center(child: _Padding()),
       floatingActionButton: _FloatingActionButton(),
+    );
+  }
+}
+
+class _Row extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[_Text(), _Container(), _ElevatedButton()],
     );
   }
 }
@@ -30,16 +41,14 @@ class Home extends StatelessWidget {
 class _Text extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        "helloo",
-        style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2.0,
-            color: Colors.white,
-            fontFamily: "EmilysCandy"),
-      ),
+    return Text(
+      "helloo",
+      style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 2.0,
+          color: Colors.white,
+          fontFamily: "EmilysCandy"),
     );
   }
 }
@@ -51,7 +60,7 @@ class _Container extends StatelessWidget {
       color: Colors.red,
       child: Text("hi!!"),
       padding: EdgeInsets.all(20.0),
-      margin: EdgeInsets.only(bottom: 100.0),
+      margin: EdgeInsets.only(bottom: 10.0),
     );
   }
 }
