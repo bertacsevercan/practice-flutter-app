@@ -221,7 +221,29 @@ class __CommentState extends State<_Comment> {
     Comment("smellyFish1", "You're hired!")
   ];
 
-  Widget commentTemplate(comment) {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: comments
+          .map((comment) => Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: CommentCard(comment: comment)))
+          .toList(),
+    );
+  }
+}
+
+class CommentCard extends StatelessWidget {
+  const CommentCard({
+    Key key,
+    @required this.comment,
+  }) : super(key: key);
+
+  final Comment comment;
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -248,18 +270,6 @@ class __CommentState extends State<_Comment> {
           ],
         ),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: comments
-          .map((comment) => Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: commentTemplate(comment)))
-          .toList(),
     );
   }
 }
