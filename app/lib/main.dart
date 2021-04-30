@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'id_card.dart';
 
 void main() => runApp(MaterialApp(
-      home: Home(),
+      home: IDCard(), //Home(),
     ));
 
 class Home extends StatelessWidget {
