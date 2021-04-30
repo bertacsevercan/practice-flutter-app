@@ -25,7 +25,9 @@ class _IDCardState extends State<IDCard> {
             _Name(),
             _Surname(),
             _Email(),
-            _Likes()
+            _Likes(),
+            _CommentLabel(),
+            _Comment()
           ],
         ),
       ),
@@ -152,32 +154,85 @@ class __LikesState extends State<_Likes> {
   int likes = 0;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Icon(
-          Icons.favorite,
-          color: Colors.white,
+    return Column(
+      children: [
+        Row(
+          children: <Widget>[
+            Icon(
+              Icons.favorite,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10.0,
+            ),
+            Text(
+              "$likes",
+              style: TextStyle(
+                  color: Colors.amber,
+                  letterSpacing: 1.0,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              width: 30.0,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+              onPressed: () => setState(() => likes += 1),
+              child: Icon(Icons.thumb_up),
+            )
+          ],
         ),
         SizedBox(
-          width: 10.0,
+          height: 30.0,
         ),
-        Text(
-          "$likes",
-          style: TextStyle(
-              color: Colors.amber,
-              letterSpacing: 1.0,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          width: 30.0,
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-          onPressed: () => setState(() => likes += 1),
-          child: Icon(Icons.thumb_up),
-        )
       ],
+    );
+  }
+}
+
+class _Comment extends StatefulWidget {
+  @override
+  __CommentState createState() => __CommentState();
+}
+
+class _CommentLabel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "COMMENTS",
+            style: TextStyle(letterSpacing: 2.0, color: Colors.white),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+        ]);
+  }
+}
+
+class __CommentState extends State<_Comment> {
+  List<String> comments = [
+    "This is great!",
+    "I love the colors!",
+    "You're hired!"
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: comments
+          .map((comment) => Text(
+                "$comment",
+                style: TextStyle(
+                    letterSpacing: 2.0,
+                    color: Colors.amber,
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold),
+              ))
+          .toList(),
     );
   }
 }
