@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'comment.dart';
 
 class IDCard extends StatefulWidget {
   @override
@@ -214,23 +215,26 @@ class _CommentLabel extends StatelessWidget {
 }
 
 class __CommentState extends State<_Comment> {
-  List<String> comments = [
-    "This is great!",
-    "I love the colors!",
-    "You're hired!"
+  List<Comment> comments = [
+    Comment("blueJay42", "This is great!"),
+    Comment("redBird222", "I love the colors!"),
+    Comment("smellyFish1", "You're hired!")
   ];
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: comments
-          .map((comment) => Text(
-                "$comment",
-                style: TextStyle(
-                    letterSpacing: 2.0,
-                    color: Colors.amber,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold),
+          .map((comment) => Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  "${comment.text} -${comment.author}",
+                  style: TextStyle(
+                      letterSpacing: 2.0,
+                      color: Colors.amber,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold),
+                ),
               ))
           .toList(),
     );
