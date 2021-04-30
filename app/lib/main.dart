@@ -21,8 +21,18 @@ class Home extends StatelessWidget {
         ),
         backgroundColor: Colors.pink,
       ),
-      body: _Column(), //Center(child: _Padding()),
+      body: RowsAndCols(), //Center(child: _Padding()),
       floatingActionButton: _FloatingActionButton(),
+    );
+  }
+}
+
+class RowsAndCols extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[_Column(), _Column(), _Column()],
     );
   }
 }
@@ -43,7 +53,7 @@ class _Column extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[_Text(), _Container(), _ElevatedButton()],
     );
   }
