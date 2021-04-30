@@ -14,7 +14,7 @@ class IDCard extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[_Name(), _Surname()],
+          children: <Widget>[_Name(), _Surname(), _Email()],
         ),
       ),
     );
@@ -74,6 +74,31 @@ class _Surname extends StatelessWidget {
         SizedBox(
           height: 30.0,
         ),
+      ],
+    );
+  }
+}
+
+class _Email extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Icon(
+          Icons.email,
+          color: Colors.white,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        Text(
+          "bertac.severcan@gmail.com",
+          style: TextStyle(
+              color: Colors.amber,
+              letterSpacing: 1.0,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold),
+        )
       ],
     );
   }
