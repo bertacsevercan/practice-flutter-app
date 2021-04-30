@@ -14,7 +14,7 @@ class IDCard extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[_Name(), _Surname(), _Email()],
+          children: <Widget>[_CircleAvatar(), _Name(), _Surname(), _Email()],
         ),
       ),
     );
@@ -100,6 +100,26 @@ class _Email extends StatelessWidget {
               fontWeight: FontWeight.bold),
         )
       ],
+    );
+  }
+}
+
+class _CircleAvatar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          CircleAvatar(
+            backgroundImage: AssetImage("images/lollipop.jpg"),
+            radius: 40.0,
+          ),
+          Divider(
+            height: 80.0,
+            color: Colors.white,
+          )
+        ],
+      ),
     );
   }
 }
