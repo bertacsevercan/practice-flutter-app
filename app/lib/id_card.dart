@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
-class IDCard extends StatelessWidget {
+class IDCard extends StatefulWidget {
+  @override
+  _IDCardState createState() => _IDCardState();
+}
+
+class _IDCardState extends State<IDCard> {
+  int likes = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +20,13 @@ class IDCard extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[_CircleAvatar(), _Name(), _Surname(), _Email()],
+          children: <Widget>[
+            _CircleAvatar(),
+            _Name(),
+            _Surname(),
+            _Email(),
+            _Likes()
+          ],
         ),
       ),
     );
@@ -82,23 +94,30 @@ class _Surname extends StatelessWidget {
 class _Email extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Icon(
-          Icons.email,
-          color: Colors.white,
+    return Column(
+      children: [
+        Row(
+          children: <Widget>[
+            Icon(
+              Icons.email,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 10.0,
+            ),
+            Text(
+              "bertac.severcan@gmail.com",
+              style: TextStyle(
+                  color: Colors.amber,
+                  letterSpacing: 1.0,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
         SizedBox(
-          width: 10.0,
+          height: 30.0,
         ),
-        Text(
-          "bertac.severcan@gmail.com",
-          style: TextStyle(
-              color: Colors.amber,
-              letterSpacing: 1.0,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold),
-        )
       ],
     );
   }
@@ -120,6 +139,45 @@ class _CircleAvatar extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _Likes extends StatefulWidget {
+  @override
+  __LikesState createState() => __LikesState();
+}
+
+class __LikesState extends State<_Likes> {
+  int likes = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Icon(
+          Icons.favorite,
+          color: Colors.white,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        Text(
+          "$likes",
+          style: TextStyle(
+              color: Colors.amber,
+              letterSpacing: 1.0,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          width: 30.0,
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+          onPressed: () => setState(() => likes += 1),
+          child: Icon(Icons.thumb_up),
+        )
+      ],
     );
   }
 }
