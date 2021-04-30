@@ -21,8 +21,22 @@ class Home extends StatelessWidget {
         ),
         backgroundColor: Colors.pink,
       ),
-      body: RowsAndCols(), //Center(child: _Padding()),
+      body: _Expanded(), //Center(child: _Padding()),
       floatingActionButton: _FloatingActionButton(),
+    );
+  }
+}
+
+class _Expanded extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Expanded(child: _AssetImage()),
+        Expanded(flex: 1, child: _Container()),
+        Expanded(flex: 1, child: _Container()),
+        Expanded(flex: 1, child: _Container()),
+      ],
     );
   }
 }
@@ -32,7 +46,20 @@ class RowsAndCols extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[_Column(), _Column(), _Column()],
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: _Column(),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: _Column(),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: _Column(),
+        )
+      ],
     );
   }
 }
@@ -53,7 +80,7 @@ class _Column extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[_Text(), _Container(), _ElevatedButton()],
     );
   }
@@ -78,7 +105,8 @@ class _Container extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+      //color: Colors.red,
       child: Text("hi!!"),
       padding: EdgeInsets.all(20.0),
       margin: EdgeInsets.only(bottom: 10.0),
