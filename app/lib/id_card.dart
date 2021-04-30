@@ -220,22 +220,45 @@ class __CommentState extends State<_Comment> {
     Comment("redBird222", "I love the colors!"),
     Comment("smellyFish1", "You're hired!")
   ];
+
+  Widget commentTemplate(comment) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              comment.text,
+              style: TextStyle(
+                letterSpacing: 2.0,
+                color: Colors.amber,
+                fontSize: 18.0,
+              ),
+            ),
+            SizedBox(height: 6.0),
+            Text(
+              comment.author,
+              style: TextStyle(
+                  letterSpacing: 2.0,
+                  color: Colors.lightBlue,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: comments
           .map((comment) => Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  "${comment.text} -${comment.author}",
-                  style: TextStyle(
-                      letterSpacing: 2.0,
-                      color: Colors.amber,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
-              ))
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: commentTemplate(comment)))
           .toList(),
     );
   }
