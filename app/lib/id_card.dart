@@ -218,8 +218,14 @@ class __CommentState extends State<_Comment> {
   List<Comment> comments = [
     Comment("blueJay42", "This is great!"),
     Comment("redBird222", "I love the colors!"),
-    Comment("smellyFish1", "You're hired!")
+    //Comment("smellyFish1", "You're hired!")
   ];
+
+  void deleteComment(value) {
+    return setState(() {
+      comments.remove(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +234,8 @@ class __CommentState extends State<_Comment> {
       children: comments
           .map((comment) => Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: CommentCard(comment: comment)))
+              child: CommentCard(
+                  comment: comment, delete: () => deleteComment(comment))))
           .toList(),
     );
   }
@@ -238,9 +245,11 @@ class CommentCard extends StatelessWidget {
   const CommentCard({
     Key key,
     @required this.comment,
+    @required this.delete,
   }) : super(key: key);
 
   final Comment comment;
+  final Function delete;
 
   @override
   Widget build(BuildContext context) {
@@ -267,6 +276,10 @@ class CommentCard extends StatelessWidget {
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold),
             ),
+            TextButton(
+                style: ButtonStyle(alignment: Alignment(1.0, 1.0)),
+                child: Icon(Icons.delete),
+                onPressed: () => delete()),
           ],
         ),
       ),
