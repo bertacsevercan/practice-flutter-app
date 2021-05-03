@@ -7,20 +7,6 @@ class ChooseLocation extends StatefulWidget {
 
 class _ChooseLocationState extends State<ChooseLocation> {
   int counter = 0;
-  @override
-  void initState() {
-    //runs every state creation once.
-    // TODO: implement initState
-    super.initState();
-    print("initState ran");
-    getData();
-  }
-
-  void getData() async {
-    String username = await Future.delayed(Duration(seconds: 3), () => "bert");
-    String name = await Future.delayed(Duration(seconds: 2), () => "bertaç");
-    print(username + name);
-  }
 
   @override
   Widget build(BuildContext context) {
