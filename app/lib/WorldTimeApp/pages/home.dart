@@ -9,7 +9,10 @@ class _HomeState extends State<Home> {
   Map data = {};
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments; //get the passed args
+    data = data.isNotEmpty
+        ? data
+        : ModalRoute.of(context).settings.arguments; //get the passed args
+
     String bgImage = data["isDayTime"] ? "images/day.jpg" : "images/night.jpg";
     Color textColor = data["isDayTime"] ? Colors.black : Colors.white;
     return Scaffold(
@@ -24,7 +27,18 @@ class _HomeState extends State<Home> {
             child: Column(
               children: <Widget>[
                 TextButton.icon(
-                    onPressed: () => Navigator.pushNamed(context, "/location"),
+                    onPressed: () async {
+                      dynamic result =
+                          await Navigator.pushNamed(context, "/location");
+                      setState(() {
+                        data = {
+                          "time": result["time"],
+                          "location": result["location"],
+                          "flag": result["flag"],
+                          "isDayTime": result["isDayTime"]
+                        };
+                      });
+                    },
                     label: Text(
                       "Choose location",
                       style: TextStyle(fontSize: 20.0, color: textColor),
