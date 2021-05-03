@@ -6,6 +6,7 @@ class ChooseLocation extends StatefulWidget {
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
+  int counter = 0;
   @override
   void initState() {
     //runs every state creation once.
@@ -24,7 +25,10 @@ class _ChooseLocationState extends State<ChooseLocation> {
         backgroundColor: Colors.green,
         title: Text("Choose Location"),
       ),
-      body: Text("Choose location"),
+      body: ElevatedButton(
+        child: Text("$counter"),
+        onPressed: () => setState(() => counter++),
+      ),
     );
   }
 }
