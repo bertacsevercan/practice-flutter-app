@@ -25,7 +25,8 @@ class _LoadingState extends State<Loading> {
     Map arguments = {
       "location": instance.location,
       "time": instance.time,
-      "flag": instance.flag
+      "flag": instance.flag,
+      "isDayTime": instance.isDayTime,
     };
 
     Navigator.pushReplacementNamed(context, "/home", arguments: arguments);

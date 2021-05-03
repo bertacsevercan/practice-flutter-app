@@ -10,42 +10,55 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments; //get the passed args
+    String bgImage = data["isDayTime"] ? "images/day.jpg" : "images/night.jpg";
+    Color textColor = data["isDayTime"] ? Colors.black : Colors.white;
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 120.0),
-          child: Column(
-            children: <Widget>[
-              TextButton.icon(
-                  onPressed: () => Navigator.pushNamed(context, "/location"),
-                  label: Text("Choose location"),
-                  icon: Icon(Icons.edit_location)),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    data["location"],
-                    style: TextStyle(
-                      fontSize: 28.0,
-                      letterSpacing: 2.0,
+        child: Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(bgImage), fit: BoxFit.cover)),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 120.0),
+            child: Column(
+              children: <Widget>[
+                TextButton.icon(
+                    onPressed: () => Navigator.pushNamed(context, "/location"),
+                    label: Text(
+                      "Choose location",
+                      style: TextStyle(fontSize: 20.0, color: textColor),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                data["time"],
-                style: TextStyle(
-                  fontSize: 64.0,
-                  letterSpacing: 2.0,
+                    icon: Icon(Icons.edit_location, color: textColor)),
+                SizedBox(
+                  height: 20.0,
                 ),
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      data["location"],
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 28.0,
+                        letterSpacing: 2.0,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Text(
+                  data["time"],
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 64.0,
+                    letterSpacing: 2.0,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
