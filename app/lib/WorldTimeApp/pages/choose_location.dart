@@ -13,6 +13,13 @@ class _ChooseLocationState extends State<ChooseLocation> {
     // TODO: implement initState
     super.initState();
     print("initState ran");
+    getData();
+  }
+
+  void getData() async {
+    String username = await Future.delayed(Duration(seconds: 3), () => "bert");
+    String name = await Future.delayed(Duration(seconds: 2), () => "bertaç");
+    print(username + name);
   }
 
   @override
@@ -22,6 +29,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     return Scaffold(
       backgroundColor: Colors.green[400],
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.green,
         title: Text("Choose Location"),
       ),
