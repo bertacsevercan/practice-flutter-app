@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'id_card.dart';
+import 'WorldTimeApp/pages/home.dart';
+import 'WorldTimeApp/pages/loading.dart';
+import 'WorldTimeApp/pages/choose_location.dart';
 
 void main() => runApp(MaterialApp(
-      home: IDCard(), //Home(),
+      //home: Home(), //_Home(),
+      initialRoute: "/home",
+      routes: {
+        "/": (context) => Loading(),
+        "/home": (context) => Home(),
+        "/location": (context) => ChooseLocation(),
+      },
     ));
 
-class Home extends StatelessWidget {
+class _Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
