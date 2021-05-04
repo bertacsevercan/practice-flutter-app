@@ -53,7 +53,7 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
             SizedBox(
               height: 20.0,
             ),
-            //Recorder(),
+            Recorder(),
           ],
         ),
       ),
@@ -91,20 +91,21 @@ class _RecorderState extends State<Recorder> {
   final String _mPath = 'flutter_sound_example.aac';
 
   @override
-  void initState() async {
+  void initState() {
+    _myRecorder.openAudioSession().then((value) => setState(() {
+          recorderIsInited = true;
+        }));
+
+    _myPlayer.openAudioSession().then((value) => setState(() {
+          playerIsInited = true;
+        }));
+
     super.initState();
-    await _myRecorder.openAudioSession();
-    setState(() {
-      recorderIsInited = true;
-    });
-    await _myPlayer.openAudioSession();
-    setState(() {
-      playerIsInited = true;
-    });
   }
 
   Future<void> record() async {
     await _myRecorder.startRecorder(toFile: _mPath, codec: Codec.aacADTS);
+    setState(() {});
   }
 
   Future<void> stopRecorder() async {
@@ -124,6 +125,7 @@ class _RecorderState extends State<Recorder> {
   Future<void> stopPlayer() async {
     if (_myPlayer != null) {
       await _myPlayer.stopPlayer();
+      setState(() {});
     }
   }
 
@@ -133,7 +135,27 @@ class _RecorderState extends State<Recorder> {
       children: [
         IconButton(
           onPressed: record,
-          icon: Icon(Icons.record_voice_over),
+          iconSize: 30.0,
+          icon: Icon(Icons.mic),
+          tooltip: "Record",
+        ),
+        IconButton(
+          onPressed: stopRecorder,
+          iconSize: 30.0,
+          icon: Icon(Icons.mic_off),
+          tooltip: "Stop recording",
+        ),
+        IconButton(
+          onPressed: play,
+          iconSize: 30.0,
+          icon: Icon(Icons.play_arrow),
+          tooltip: "Play",
+        ),
+        IconButton(
+          onPressed: stopPlayer,
+          iconSize: 30.0,
+          icon: Icon(Icons.stop),
+          tooltip: "Stop",
         ),
       ],
     );
