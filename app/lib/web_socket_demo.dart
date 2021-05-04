@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import "package:flutter_sound/flutter_sound.dart";
 
 class WebSocketDemo extends StatefulWidget {
   final WebSocketChannel channel;
@@ -48,7 +49,11 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
                   child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
                 );
               },
-            )
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            //Recorder(),
           ],
         ),
       ),
@@ -69,6 +74,77 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
   @override
   void dispose() {
     widget.channel.sink.close();
+    super.dispose();
+  }
+}
+
+class Recorder extends StatefulWidget {
+  @override
+  _RecorderState createState() => _RecorderState();
+}
+
+class _RecorderState extends State<Recorder> {
+  FlutterSoundPlayer _myPlayer = FlutterSoundPlayer();
+  FlutterSoundRecorder _myRecorder = FlutterSoundRecorder();
+  bool recorderIsInited;
+  bool playerIsInited;
+  final String _mPath = 'flutter_sound_example.aac';
+
+  @override
+  void initState() async {
+    super.initState();
+    await _myRecorder.openAudioSession();
+    setState(() {
+      recorderIsInited = true;
+    });
+    await _myPlayer.openAudioSession();
+    setState(() {
+      playerIsInited = true;
+    });
+  }
+
+  Future<void> record() async {
+    await _myRecorder.startRecorder(toFile: _mPath, codec: Codec.aacADTS);
+  }
+
+  Future<void> stopRecorder() async {
+    await _myRecorder.stopRecorder();
+  }
+
+  void play() async {
+    await _myPlayer.startPlayer(
+        fromURI: _mPath,
+        codec: Codec.mp3,
+        whenFinished: () {
+          setState(() {});
+        });
+    setState(() {});
+  }
+
+  Future<void> stopPlayer() async {
+    if (_myPlayer != null) {
+      await _myPlayer.stopPlayer();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: record,
+          icon: Icon(Icons.record_voice_over),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _myRecorder.closeAudioSession();
+    _myRecorder = null;
+    _myPlayer.closeAudioSession();
+    _myPlayer = null;
     super.dispose();
   }
 }
