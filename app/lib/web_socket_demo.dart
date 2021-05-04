@@ -44,9 +44,10 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
             StreamBuilder(
               stream: widget.channel.stream,
               builder: (context, snapshot) {
+                String msg = snapshot.hasData ? '${snapshot.data}' : '';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
+                  child: Text("Message from server: $msg"),
                 );
               },
             ),
@@ -67,7 +68,13 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
 
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
-      widget.channel.sink.add(_controller.text);
+      try {
+        print("sending...");
+        widget.channel.sink.add(_controller.text);
+        print("sent.");
+      } catch (e) {
+        print("Error: $e");
+      }
     }
   }
 
@@ -110,6 +117,7 @@ class _RecorderState extends State<Recorder> {
 
   Future<void> stopRecorder() async {
     await _myRecorder.stopRecorder();
+    setState(() {});
   }
 
   void play() async {
@@ -133,29 +141,20 @@ class _RecorderState extends State<Recorder> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        IconButton(
-          onPressed: record,
-          iconSize: 30.0,
-          icon: Icon(Icons.mic),
-          tooltip: "Record",
+        ElevatedButton.icon(
+          onPressed: _myRecorder.isStopped ? record : stopRecorder,
+          label: _myRecorder.isStopped
+              ? Text("Record audio")
+              : Text("Stop recording"),
+          icon: _myRecorder.isStopped ? Icon(Icons.mic) : Icon(Icons.mic_off),
         ),
-        IconButton(
-          onPressed: stopRecorder,
-          iconSize: 30.0,
-          icon: Icon(Icons.mic_off),
-          tooltip: "Stop recording",
+        SizedBox(
+          width: 10.0,
         ),
-        IconButton(
-          onPressed: play,
-          iconSize: 30.0,
-          icon: Icon(Icons.play_arrow),
-          tooltip: "Play",
-        ),
-        IconButton(
-          onPressed: stopPlayer,
-          iconSize: 30.0,
-          icon: Icon(Icons.stop),
-          tooltip: "Stop",
+        ElevatedButton.icon(
+          onPressed: _myPlayer.isStopped ? play : stopPlayer,
+          icon: _myPlayer.isStopped ? Icon(Icons.play_arrow) : Icon(Icons.stop),
+          label: _myPlayer.isStopped ? Text("Play audio") : Text("Stop audio"),
         ),
       ],
     );
