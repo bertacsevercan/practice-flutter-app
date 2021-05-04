@@ -3,15 +3,19 @@ import 'id_card.dart';
 import 'WorldTimeApp/pages/home.dart';
 import 'WorldTimeApp/pages/loading.dart';
 import 'WorldTimeApp/pages/choose_location.dart';
+import 'web_socket_demo.dart';
+import 'package:web_socket_channel/io.dart';
 
 void main() => runApp(MaterialApp(
-      //home: Home(), //_Home(),
-      initialRoute: "/",
+      home: WebSocketDemo(
+        channel: IOWebSocketChannel.connect('wss://echo.websocket.org'),
+      ),
+      /* initialRoute: "/",
       routes: {
         "/": (context) => Loading(),
         "/home": (context) => Home(),
         "/location": (context) => ChooseLocation(),
-      },
+      }, */
     ));
 
 class _Home extends StatelessWidget {
