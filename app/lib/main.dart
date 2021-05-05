@@ -6,9 +6,10 @@ import 'WorldTimeApp/pages/choose_location.dart';
 import 'web_socket_demo.dart';
 import 'package:web_socket_channel/io.dart';
 
+String test_uri = 'wss://echo.websocket.org';
 void main() => runApp(MaterialApp(
       home: WebSocketDemo(
-        channel: IOWebSocketChannel.connect('wss://echo.websocket.org'),
+        channel: IOWebSocketChannel.connect("ws://localhost:3000"),
       ),
       /* initialRoute: "/",
       routes: {
