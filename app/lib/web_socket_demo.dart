@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import "package:flutter_sound/flutter_sound.dart";
+import 'package:web_socket_channel/io.dart';
 
 class WebSocketDemo extends StatefulWidget {
   final WebSocketChannel channel;
@@ -16,6 +17,7 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
 
   @override
   Widget build(BuildContext context) {
+    String msg;
     return Scaffold(
       backgroundColor: Colors.pink[200],
       appBar: AppBar(
@@ -44,7 +46,7 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
             StreamBuilder(
               stream: widget.channel.stream,
               builder: (context, snapshot) {
-                String msg = snapshot.hasData ? '${snapshot.data}' : '';
+                msg = snapshot.hasData ? '${snapshot.data}' : '';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
                   child: Text("Message from server: $msg"),
@@ -54,7 +56,10 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
             SizedBox(
               height: 20.0,
             ),
-            Recorder(),
+            Recorder(
+              url: msg,
+              channel: IOWebSocketChannel.connect("ws://localhost:3000"),
+            ),
           ],
         ),
       ),
@@ -71,7 +76,7 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
       try {
         print("sending...");
         widget.channel.sink.add(_controller.text);
-        print("sent.");
+        print("sent!");
       } catch (e) {
         print("Error: $e");
       }
@@ -86,6 +91,11 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
 }
 
 class Recorder extends StatefulWidget {
+  final WebSocketChannel channel;
+  String url;
+
+  Recorder({Key key, @required this.channel, @required this.url})
+      : super(key: key);
   @override
   _RecorderState createState() => _RecorderState();
 }
@@ -110,19 +120,31 @@ class _RecorderState extends State<Recorder> {
     super.initState();
   }
 
+  void _sendAudio(audio) {
+    try {
+      print("sending audio...");
+      widget.channel.sink.add(audio);
+      print("sent!");
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
   Future<void> record() async {
     await _myRecorder.startRecorder(toFile: _mPath, codec: Codec.aacADTS);
     setState(() {});
   }
 
   Future<void> stopRecorder() async {
-    await _myRecorder.stopRecorder();
+    //await _myRecorder.stopRecorder();
+    widget.url = await _myRecorder.stopRecorder();
+    _sendAudio(widget.url);
     setState(() {});
   }
 
   void play() async {
     await _myPlayer.startPlayer(
-        fromURI: _mPath,
+        fromURI: widget.url,
         codec: Codec.mp3,
         whenFinished: () {
           setState(() {});
