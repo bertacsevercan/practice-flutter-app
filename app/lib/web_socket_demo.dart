@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import "package:flutter_sound/flutter_sound.dart";
 import 'package:web_socket_channel/io.dart';
+import "package:http/http.dart";
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:async';
 
 class WebSocketDemo extends StatefulWidget {
   final WebSocketChannel channel;
@@ -49,7 +53,7 @@ class _WebSocketDemoState extends State<WebSocketDemo> {
                 msg = snapshot.hasData ? '${snapshot.data}' : '';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: Text("Message from server: $msg"),
+                  child: Text("Message from server: "),
                 );
               },
             ),
@@ -105,7 +109,9 @@ class _RecorderState extends State<Recorder> {
   FlutterSoundRecorder _myRecorder = FlutterSoundRecorder();
   bool recorderIsInited;
   bool playerIsInited;
-  final String _mPath = 'flutter_sound_example.aac';
+  final String _mPath = 'audio_msg.aac';
+  StreamSubscription _mRecordingDataSubscription;
+  final int tSampleRate = 44000;
 
   @override
   void initState() {
@@ -131,24 +137,55 @@ class _RecorderState extends State<Recorder> {
   }
 
   Future<void> record() async {
-    await _myRecorder.startRecorder(toFile: _mPath, codec: Codec.aacADTS);
+    var recordingDataController = StreamController<Food>();
+    _mRecordingDataSubscription = recordingDataController.stream.listen(
+      (buffer) {
+        if (buffer is FoodData) {
+          _sendAudio(buffer.data);
+        }
+      },
+    );
+    await _myRecorder.startRecorder(
+      toStream: recordingDataController.sink,
+      codec: Codec.pcm16,
+      numChannels: 1,
+      sampleRate: tSampleRate,
+    );
     setState(() {});
   }
 
   Future<void> stopRecorder() async {
-    //await _myRecorder.stopRecorder();
-    widget.url = await _myRecorder.stopRecorder();
-    _sendAudio(widget.url);
+    if (_mRecordingDataSubscription != null) {
+      await _mRecordingDataSubscription.cancel();
+      _mRecordingDataSubscription = null;
+    }
+    await _myRecorder.stopRecorder();
     setState(() {});
   }
 
   void play() async {
-    await _myPlayer.startPlayer(
-        fromURI: widget.url,
+    Uint8List buffer;
+    //dynamic buffer;
+    widget.channel.stream.listen((event) {
+      buffer = event;
+      print(buffer);
+    });
+    /* await _myPlayer.startPlayer(
+        fromDataBuffer: buffer,
         codec: Codec.mp3,
         whenFinished: () {
           setState(() {});
-        });
+        }); */
+    await _myPlayer.startPlayerFromStream(
+      codec: Codec.pcm16,
+      numChannels: 1,
+      sampleRate: tSampleRate,
+    );
+
+    await _myPlayer
+        .feedFromStream(buffer)
+        .onError((error, stackTrace) => print(error))
+        .whenComplete(() => setState(() {}));
     setState(() {});
   }
 
@@ -188,6 +225,7 @@ class _RecorderState extends State<Recorder> {
     _myRecorder = null;
     _myPlayer.closeAudioSession();
     _myPlayer = null;
+    widget.channel.sink.close();
     super.dispose();
   }
 }
